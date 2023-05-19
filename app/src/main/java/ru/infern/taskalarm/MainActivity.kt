@@ -16,12 +16,12 @@ const val ADD_ALARM_REQUEST = 1
 const val EDIT_ALARM_REQUEST = 2
 const val EXTRA_REQUEST = "EXTRA_ALARM"
 
+
 class MainActivity : AppCompatActivity(), AlarmClickListener {
     private lateinit var alarmsRecyclerView: RecyclerView
     private lateinit var addTextView: TextView
     private lateinit var binding: ActivityMainBinding
     private lateinit var alarmModel: AlarmViewModel
-    private val alarmHelper = AlarmHelper(this)
     private val adapter = AlarmAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
     }
 
     private fun setTouchHelper(): ItemTouchHelper.SimpleCallback {
-        return object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val itemTouchHelper = object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -72,11 +73,11 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val alarm = adapter.getAlarm(viewHolder.adapterPosition)
-                alarmModel.deleteAlarm(alarm)
+                alarmModel.deleteAlarm(adapter.getAlarm(viewHolder.adapterPosition))
                 adapter.removeAlarm(viewHolder.adapterPosition)
             }
         }
+        return itemTouchHelper
     }
 
     override fun onUpdateAlarm(alarm: Alarm) {
@@ -85,23 +86,16 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
-
         val alarm = data?.extras?.getSerializable(EXTRA_REQUEST) as? Alarm
-
-        when (requestCode) {
-            ADD_ALARM_REQUEST -> {
-                alarm?.let {
-                    alarmModel.saveAlarm(alarm)
-                    adapter.addAlarm(alarm)
-                    alarmHelper.setAlarm(alarm)
-                }
+        if (requestCode == ADD_ALARM_REQUEST && resultCode == Activity.RESULT_OK) {
+            alarm?.let {
+                alarmModel.saveAlarm(alarm)
+                adapter.addAlarm(alarm)
             }
-            EDIT_ALARM_REQUEST -> {
-                alarm?.let {
-                    alarmModel.updateAlarm(alarm)
-                    adapter.addAlarm(alarm)
-                }
+        } else if (requestCode == EDIT_ALARM_REQUEST && resultCode == Activity.RESULT_OK) {
+            alarm?.let {
+                alarmModel.updateAlarm(alarm)
+                adapter.addAlarm(alarm)
             }
         }
     }
@@ -110,7 +104,7 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
         val intent = Intent(this@MainActivity, AddEditAlarmActivity::class.java)
         intent.putExtra("requestCode", EDIT_ALARM_REQUEST)
         intent.putExtra("alarm", alarm)
-        startActivityForResult(intent, ADD_ALARM_REQUEST)
+        startActivityForResult(intent, EDIT_ALARM_REQUEST)
     }
 }
 

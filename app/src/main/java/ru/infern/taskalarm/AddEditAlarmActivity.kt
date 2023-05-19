@@ -53,7 +53,7 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
         confirmTextView.setOnClickListener {
             val intent = Intent()
             if (requestCode == 1) {
-                val alarmToSent = Alarm(savedHourOfDay, savedMinute, nameEditText.text.toString(), id = System.currentTimeMillis().toInt())
+                val alarmToSent = Alarm(savedHourOfDay, savedMinute, nameEditText.text.toString())
                 intent.putExtra("EXTRA_ALARM", alarmToSent)
                 setResult(RESULT_OK, intent)
             }
