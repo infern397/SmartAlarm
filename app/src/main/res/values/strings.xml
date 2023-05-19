@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Task Alarm</string>
+    <string name="add_text">Add</string>
+    <string name="smart_alarm_title">Smart Alarm</string>
+</resources>
