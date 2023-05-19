@@ -11,4 +11,4 @@ data class Alarm(@ColumnInfo var hours: Int,
             @ColumnInfo var name: String = "",
             @ColumnInfo var isEnable: Boolean = true,
             @ColumnInfo(name = "id") @PrimaryKey
-            val id: Int? = null, ) : Serializable
+            val id: Int = System.currentTimeMillis().toInt() ) : Serializable

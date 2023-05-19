@@ -11,11 +11,11 @@ interface AlarmDao {
     fun getAlarms(): Maybe<Array<Alarm>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAlarm(users: Alarm): Completable
+    fun insertAlarm(alarm: Alarm): Completable
 
     @Delete
-    fun deleteAlarm(user: Alarm): Completable
+    fun deleteAlarm(alarm: Alarm): Completable
 
     @Update
-    fun updateAlarm(user: Alarm): Completable
+    fun updateAlarm(alarm: Alarm): Completable
 }

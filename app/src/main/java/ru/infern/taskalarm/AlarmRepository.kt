@@ -1,5 +1,6 @@
 package ru.infern.taskalarm
 
+import android.util.Log
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Maybe
 
@@ -11,6 +12,10 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
 
     fun insertAlarm(alarm: Alarm): Completable {
         return alarmDao.insertAlarm(alarm)
+            .onErrorComplete { error ->
+                Log.e("AlarmRepository", "Error inserting alarm: ${error.message}")
+                true // Возвращаем true, чтобы операция была завершена успешно, не останавливая цепочку операций
+            }
     }
 
     fun updateAlarm(alarm: Alarm): Completable {

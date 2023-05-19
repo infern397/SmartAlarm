@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
     private lateinit var addTextView: TextView
     private lateinit var binding: ActivityMainBinding
     private lateinit var alarmModel: AlarmViewModel
+    private lateinit var alarmHandler: AlarmHandler // Добавлено
+
     private val adapter = AlarmAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
         initRecyclerView()
         setListeners()
         alarmModel = ViewModelProvider(this@MainActivity)[AlarmViewModel::class.java]
+        alarmHandler = AlarmHandler(this) // Инициализация AlarmHandler
         alarmModel.getAlarms()
         alarmModel.alarm.observe(this) {
             if (it.isNotEmpty()) {
@@ -73,8 +76,10 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                alarmModel.deleteAlarm(adapter.getAlarm(viewHolder.adapterPosition))
+                val alarm = adapter.getAlarm(viewHolder.adapterPosition)
+                alarmModel.deleteAlarm(alarm)
                 adapter.removeAlarm(viewHolder.adapterPosition)
+                alarmHandler.cancelAlarm(alarm) // Отмена будильника
             }
         }
         return itemTouchHelper
@@ -82,6 +87,10 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
 
     override fun onUpdateAlarm(alarm: Alarm) {
         alarmModel.updateAlarm(alarm)
+        when (alarm.isEnable) {
+            true -> alarmHandler.setAlarm(alarm)
+            false -> alarmHandler.cancelAlarm(alarm)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -91,11 +100,16 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
             alarm?.let {
                 alarmModel.saveAlarm(alarm)
                 adapter.addAlarm(alarm)
+                alarmHandler.setAlarm(alarm) // Установка нового будильника
             }
         } else if (requestCode == EDIT_ALARM_REQUEST && resultCode == Activity.RESULT_OK) {
             alarm?.let {
                 alarmModel.updateAlarm(alarm)
                 adapter.addAlarm(alarm)
+                if (alarm.isEnable) {
+                    alarmHandler.cancelAlarm(alarm)
+                    alarmHandler.setAlarm(alarm) // Обновление будильника
+                }
             }
         }
     }
@@ -107,4 +121,3 @@ class MainActivity : AppCompatActivity(), AlarmClickListener {
         startActivityForResult(intent, EDIT_ALARM_REQUEST)
     }
 }
-
