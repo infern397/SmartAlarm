@@ -48,7 +48,7 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
 
     private fun setListeners() {
         timeTextView.setOnClickListener {
-            TimePickerDialog(this, this, hourOfDay, minute, true).show()
+            TimePickerDialog(this, this, savedHourOfDay, savedMinute, true).show()
         }
         confirmTextView.setOnClickListener {
             val intent = Intent()
