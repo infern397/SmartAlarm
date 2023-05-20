@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 
     <application
@@ -31,9 +32,19 @@
         </activity>
         <activity android:name="ru.infern.taskalarm.TaskActivity" />
 
-        <receiver android:name=".AlarmReceiver" />
+<!--        <receiver-->
+<!--            android:name=".AlarmReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />-->
+<!--                &lt;!&ndash; Добавьте другие необходимые фильтры &ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
-        <service android:name=".AlarmService" />
+        <service
+            android:name=".AlarmService"
+            android:exported="false" />
     </application>
 
 </manifest>
