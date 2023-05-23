@@ -23,7 +23,7 @@ class AddEditViewModel(alarm: Alarm) : ViewModel() {
      * @param minute минуты
      * @return форматированная строка
      */
-    fun formatTime(hour: Int, minute: Int ) : String {
+    fun formatTime(hour: Int, minute: Int): String {
         val formattedHours =
             if (hour < 10) "0${hour}" else hour.toString()
         val formattedMinutes =
@@ -47,8 +47,10 @@ class AddEditViewModel(alarm: Alarm) : ViewModel() {
      */
     fun setAlarmName(name: String) {
         val currentAlarm = alarmLiveData.value ?: return
-        currentAlarm.name = name
-        alarmLiveData.postValue(currentAlarm)
+        if (currentAlarm.name != name) {
+            currentAlarm.name = name
+            alarmLiveData.postValue(currentAlarm)
+        }
     }
 
     /**

@@ -47,7 +47,7 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
         vm = if (requestCode == 2) {
             ViewModelProvider(
                 this,
-                AddEditViewModelFactory(getAlarmFromInit())
+                AddEditViewModelFactory(getAlarmFromIntent())
             )[AddEditViewModel::class.java]
         } else {
             ViewModelProvider(
@@ -57,7 +57,9 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
         }
         vm.getAlarmLiveData().observe(this) { alarm ->
             timeTextView.text = vm.formatTime(alarm.hours, alarm.minutes)
-            nameEditText.setText(alarm.name)
+            if (nameEditText.text.toString() != alarm.name) {
+                nameEditText.setText(alarm.name)
+            }
         }
     }
 
@@ -92,18 +94,14 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
             finish()
         }
         nameEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Ничего не делаем
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Вызываем метод обновления имени в ViewModel
                 vm.setAlarmName(s.toString())
             }
 
-            override fun afterTextChanged(s: Editable?) {
-                // Ничего не делаем
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
@@ -128,5 +126,5 @@ class AddEditAlarmActivity : AppCompatActivity(), OnTimeSetListener {
      * Получение будильника из интента.
      *
      */
-    private fun getAlarmFromInit() = intent.getSerializableExtra("alarm") as Alarm
+    private fun getAlarmFromIntent() = intent.getSerializableExtra("alarm") as Alarm
 }

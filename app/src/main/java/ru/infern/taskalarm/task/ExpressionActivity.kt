@@ -1,5 +1,7 @@
 package ru.infern.taskalarm.task
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -71,6 +73,9 @@ class ExpressionActivity : AppCompatActivity() {
             if (viewModel.submitAnswer(currentAnswer)) {
                 musicPlayer.stop()
                 vibrationPlayer.stop()
+                val notificationManager = applicationContext.getSystemService(
+                    Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.cancel(0)
                 finish()
             }
         }

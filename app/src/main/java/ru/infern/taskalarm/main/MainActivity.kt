@@ -13,11 +13,6 @@ import ru.infern.taskalarm.R
 import ru.infern.taskalarm.database.Alarm
 import ru.infern.taskalarm.edit.AddEditAlarmActivity
 
-
-const val ADD_ALARM_REQUEST = 1
-const val EDIT_ALARM_REQUEST = 2
-const val EXTRA_REQUEST = "EXTRA_ALARM"
-
 /**
  * Главная активити приложения.
  *
@@ -65,10 +60,6 @@ class MainActivity : AppCompatActivity(), AlarmInteractionListener {
      *
      */
     private fun initRecyclerView() {
-        vm.alarm.observe(this) {
-            adapter.setAlarm(it)
-            adapter.setAlarmClickListener(this)
-        }
         alarmsRecyclerView.layoutManager = LinearLayoutManager(this)
         alarmsRecyclerView.adapter = adapter
         adapter.setAlarmClickListener(this)
@@ -88,8 +79,7 @@ class MainActivity : AppCompatActivity(), AlarmInteractionListener {
     }
 
     /**
-     *
-    Установка слушателей для элементов интерфейса.
+     * Установка слушателей для элементов интерфейса.
      *
      */
     private fun setListeners() {
@@ -169,5 +159,11 @@ class MainActivity : AppCompatActivity(), AlarmInteractionListener {
         intent.putExtra("requestCode", EDIT_ALARM_REQUEST)
         intent.putExtra("alarm", alarm)
         startActivityForResult(intent, EDIT_ALARM_REQUEST)
+    }
+
+    companion object {
+        const val ADD_ALARM_REQUEST = 1
+        const val EDIT_ALARM_REQUEST = 2
+        const val EXTRA_REQUEST = "EXTRA_ALARM"
     }
 }

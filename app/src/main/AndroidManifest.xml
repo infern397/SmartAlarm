@@ -36,6 +36,12 @@
             android:launchMode="singleTask">
         </activity>
 
-        <receiver android:name=".alarmsignal.AlarmReceiver" />
+        <receiver
+            android:name=".alarmsignal.AlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.project.action.ALERM"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
