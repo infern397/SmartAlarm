@@ -1,7 +1,8 @@
-package ru.infern.taskalarm
+package ru.infern.taskalarm.alarmsignal
 
 import android.content.Context
 import android.media.MediaPlayer
+import ru.infern.taskalarm.R
 
 class MusicPlayer private constructor() {
     private var mediaPlayer: MediaPlayer? = null

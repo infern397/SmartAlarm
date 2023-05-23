@@ -1,4 +1,4 @@
-package ru.infern.taskalarm
+package ru.infern.taskalarm.alarmsignal
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import ru.infern.taskalarm.database.Alarm
 import java.util.*
 
 class AlarmHandler(private val context: Context) {
