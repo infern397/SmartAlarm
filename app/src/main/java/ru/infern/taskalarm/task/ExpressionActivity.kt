@@ -19,13 +19,13 @@ import ru.infern.taskalarm.alarmsignal.VibrationPlayer
  *
  */
 class ExpressionActivity : AppCompatActivity() {
-    private lateinit var musicPlayer: MusicPlayer //
-    private lateinit var vibrationPlayer: VibrationPlayer //
-    private lateinit var expressionTextView: TextView //
-    private lateinit var answerEditText: EditText //
-    private lateinit var submitButton: Button //
+    private lateinit var musicPlayer: MusicPlayer // Музыкальный плеер
+    private lateinit var vibrationPlayer: VibrationPlayer // Вибрационный плеер
+    private lateinit var expressionTextView: TextView // текстовое представление выражения
+    private lateinit var answerEditText: EditText // текстовое представление ответа
+    private lateinit var submitButton: Button // кнопка подтверждения ответа
 
-    private lateinit var viewModel: ExpressionViewModel //
+    private lateinit var viewModel: ExpressionViewModel // viewModel для данной активити
 
     /**
      * Метод, вызываемый при создании активити.

@@ -18,15 +18,15 @@ import ru.infern.taskalarm.database.AlarmRepository
  * @param application ссылка на объект Application
  */
 class MainViewModel(application: Application): AndroidViewModel(application) {
-    private val compositeDisposable = CompositeDisposable() //
+    private val compositeDisposable = CompositeDisposable() // контейнер для управления подписками
 
-    private val _alarm = MutableLiveData<Array<Alarm>>() //
-    var alarm: LiveData<Array<Alarm>> = _alarm //
+    private val _alarm = MutableLiveData<Array<Alarm>>() // Приватное поле для хранения списка будильников
+    var alarm: LiveData<Array<Alarm>> = _alarm // Публичное поле для доступа к списку будильников
 
-    private var alarmRepository: AlarmRepository =
-        AlarmRepository(AlarmDatabase.getDatabase(application).alarmDao()) //
+    private var alarmRepository: AlarmRepository = // Репозиторий для работы с базой данных будильников
+        AlarmRepository(AlarmDatabase.getDatabase(application).alarmDao())
 
-    private var alarmHandler: AlarmHandler = AlarmHandler(application) //
+    private var alarmHandler: AlarmHandler = AlarmHandler(application) // Обработчик сигналов будильников
 
     /**
      * Установка сигнала для будильника.

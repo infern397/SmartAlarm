@@ -24,7 +24,7 @@ abstract class AlarmDatabase : RoomDatabase() {
      */
     companion object {
         @Volatile
-        private var INSTANCE: AlarmDatabase? = null //
+        private var INSTANCE: AlarmDatabase? = null // база данных
 
         /**
          * Получение экземпляра базы данных.
